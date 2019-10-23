@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Scroll-pannel</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/iview@3.5.1/dist/styles/iview.css">
+  <script src="https://cdn.jsdelivr.net/npm/iview@3.5.1/dist/iview.js"></script>
+</head>
+<body>
+  <div id="app">
+    <div style="width: 60%;">
+      <scroll-panel ref="panel">
+        <tag v-for="item, index in tags" type="border" :key="index" :id="index" closable>标签{{index}}</tag>
+      </scroll-panel>
+    </div>
+    <i-button @click="scroll">测试</i-button>{{index}}
+  </div>
+</body>
+
+<script>
+window._v = new Vue({
+  el: '#app',
+  data: {
+    message: 'Hello Vue!',
+    tags: new Array(50),
+    index: 0
+  },
+  methods: {
+    scroll(){
+      this.index = parseInt(Math.random() * 50)
+      this.$refs.panel.scrollTo(document.getElementById(this.index.toString()))
+    }
+  },
+})
+
+console.log("hhhhhhhh")
+</script>
+</html>
