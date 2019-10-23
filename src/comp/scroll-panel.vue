@@ -25,15 +25,34 @@ export default {
 
     }
   },
+  props: {
+    scroll: {
+      type: [HTMLElement, Number]
+    }
+  },
   methods: {
     scrollTo(val){
       animateScrollTo(val, {elementToScroll: this.$refs.out}).then(() => {
+        if(!(val instanceof HTMLElement)) return
         let ori = val.style.boxShadow
         val.style.boxShadow = '0 0 0 2px rgba(45,140,240,.3)'
         setTimeout(() => {
           val.style.boxShadow = ori
         }, 1000)
       })
+    }
+  },
+  mounted() {
+    this.$on('scroll-left', () => {
+      this.scrollTo([this.$refs.out.scrollLeft - this.$refs.out.clientWidth * 0.8, 0])
+    })
+    this.$on('scroll-right', () => {
+      this.scrollTo([this.$refs.out.scrollLeft + this.$refs.out.clientWidth * 0.8, 0])
+    })
+  },
+  watch: {
+    scroll: function (newVal) {
+      this.scrollTo(newVal)
     }
   },
 }

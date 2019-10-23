@@ -12,11 +12,14 @@
 <body>
   <div id="app">
     <div style="width: 60%;">
-      <scroll-panel ref="panel">
+      <scroll-panel ref="panel" :scroll="scrollPoint">
         <tag v-for="item, index in tags" type="border" :key="index" :id="index" closable>标签{{index}}</tag>
       </scroll-panel>
     </div>
     <i-button @click="scroll">测试</i-button>{{index}}
+    <br>
+    <i-button @click="scrollLeft">左移</i-button>
+    <i-button @click="scrollRight">右移</i-button>
   </div>
 </body>
 
@@ -26,12 +29,21 @@ window._v = new Vue({
   data: {
     message: 'Hello Vue!',
     tags: new Array(50),
-    index: 0
+    index: 0,
+    scrollPoint: undefined,
   },
   methods: {
     scroll(){
+      window.test = this.$refs.panel
       this.index = parseInt(Math.random() * 50)
-      this.$refs.panel.scrollTo(document.getElementById(this.index.toString()))
+      this.scrollPoint = document.getElementById(this.index.toString())
+      // this.scrollPoint = this.index.toString()
+    },
+    scrollLeft(){
+      this.$refs.panel.$emit('scroll-left')
+    },
+    scrollRight(){
+      this.$refs.panel.$emit('scroll-right')
     }
   },
 })
