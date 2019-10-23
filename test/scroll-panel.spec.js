@@ -28,7 +28,7 @@ describe('comp/scroll-panel.vue', () => {
     expect(wrapper.find('#test-comp').findAll('button').length).equal(50)
   })
 
-  it('render component', () => {
+  it('API test', () => {
     const wrapper = mount(scrollPanel)
     wrapper.setProps({ scroll: document.body })
     // expect(wrapper.find('div').classes()).contains('vue-scroll-root')
