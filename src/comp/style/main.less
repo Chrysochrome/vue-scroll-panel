@@ -3,10 +3,9 @@
     display: flex;
   }
   &outer{
-    width: calc(100% - 24px);
-    white-space: nowrap;
+    // width: calc(100% - 24px);
     overflow: auto;
-    float: left;
+    // float: left;
     -ms-overflow-style: none;  // IE 10+
     scrollbar-width: none;  // Firefox
     &::-webkit-scrollbar{
@@ -15,25 +14,35 @@
   }
   &inner{
     width: fit-content;
+    white-space: nowrap;
   }
   &more-icon{
-    width: 24px;
-    float: left;
-    display: flex;
-    align-items: center;
+    // width: 24px;
+    // float: left;
+    // display: flex;
+    // align-items: center;
     cursor: pointer;
+    border-radius: 4px;
     transition: all .2s;
 
     svg{
       display: block;
       fill: #6c757d;
       transition: all .23s ease-in-out;
-      transform: rotate(0.5turn);
+      transform: rotate(0turn);
       height: 100%;
+
+      // &:hover{
+      //   transform: rotate(0turn);
+      // }
     }
 
-    svg:hover{
-      transform: rotate(0turn);
+    .expand{
+      transform: rotate(0.5turn);
+
+      // &:hover{
+      //   transform: rotate(0.5turn);
+      // }
     }
 
     &:hover{

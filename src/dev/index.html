@@ -12,7 +12,7 @@
 <body>
   <div id="app">
     <div style="width: 60%;">
-      <scroll-panel ref="panel" :scroll="scrollPoint">
+      <scroll-panel ref="panel" :scroll="scrollPoint" style="margin-bottom: 550px;">
         <tag v-for="item, index in tags" type="border" :key="index" :id="index" closable>标签{{index}}</tag>
       </scroll-panel>
     </div>
