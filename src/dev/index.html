@@ -12,11 +12,29 @@
 <body>
   <div id="app">
     <div style="width: 60%;">
-      <scroll-panel ref="panel" :scroll="scrollPoint" style="margin-bottom: 550px;">
-        <tag v-for="item, index in tags" type="border" :key="index" :id="index" closable>标签{{index}}</tag>
+      <scroll-panel
+            ref="panel"
+            :scroll="scrollPoint"
+            :dragable="dragable"
+            style="margin:30px 0px 550px;">
+        <tag v-for="item, index in tags"
+              type="border" :key="index"
+              :id="index"
+              @click.native="() => {clickTag(...arguments, index)}"
+              @on-close="handleClose(index)"
+              :color=" !!~selectTags.indexOf(index) ? 'primary' : 'default'"
+              closable>
+        标签{{index}}
+      </tag>
       </scroll-panel>
     </div>
-    <i-button @click="scroll">测试</i-button>{{index}}
+    <i-button @click="scroll">跳转</i-button>
+    <i-button @click="() => {dragable = !dragable}">
+      {{dragable ? "关闭" : "打开"}}拖拽
+    </i-button>
+    {{index}}
+    <br>
+    选择：{{JSON.stringify(selectTags)}}
     <br>
     <i-button @click="scrollLeft">左移</i-button>
     <i-button @click="scrollRight">右移</i-button>
@@ -24,18 +42,21 @@
 </body>
 
 <script>
+let max = 300
 window._v = new Vue({
   el: '#app',
   data: {
     message: 'Hello Vue!',
-    tags: new Array(50),
+    tags: (() => {let res = []; for(let m = 0; m < max; m++){res.push(false)};return res;})(),
     index: 0,
     scrollPoint: undefined,
+    selectTags: [],
+    dragable: true,
   },
   methods: {
     scroll(){
       window.test = this.$refs.panel
-      this.index = parseInt(Math.random() * 50)
+      this.index = parseInt(Math.random() * max)
       this.scrollPoint = document.getElementById(this.index.toString())
       // this.scrollPoint = this.index.toString()
     },
@@ -44,7 +65,20 @@ window._v = new Vue({
     },
     scrollRight(){
       this.$refs.panel.$emit('scroll-right')
+    },
+    clickTag(e, index){
+      // console.log(...arguments)
+      let pos = this.selectTags.indexOf(index)
+      if(!~pos) this.selectTags.push(index)
+      else this.selectTags.splice(pos, 1)
+    },
+    handleClose(index){
+      this.tags.splice(index, 1)
     }
+  },
+  mounted() {
+    this.$nextTick(() => {
+    })
   },
 })
 

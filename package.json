@@ -1,7 +1,7 @@
 {
-  "name": "scroll-panel",
+  "name": "vue-scroll-panel",
   "version": "1.0.0",
-  "description": "My webpack project",
+  "description": "A vue scroll panel",
   "main": "index.js",
   "scripts": {
     "test": "karma start --single-run",
@@ -12,7 +12,8 @@
   "author": "guoxun",
   "license": "MIT",
   "dependencies": {
-    "animated-scroll-to": "^2.0.3"
+    "animated-scroll-to": "^2.0.3",
+    "scrollbooster": "^1.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.6.4",

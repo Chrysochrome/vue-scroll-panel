@@ -1,3 +1,3 @@
-import scroller from '../index.js'
+import scroller from '../../index.js'
 
 Vue.use(scroller)

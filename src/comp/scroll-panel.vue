@@ -6,8 +6,12 @@
       </div>
     </div>
     <slot name="more">
-      <div class="vue-scroll-more-icon" ref="icon" @click="moreButtonClick" :title="expand ? '折叠' : '展开'">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" :class="{expand}">
+      <div class="vue-scroll-more-icon" ref="icon" @click="moreButtonClick">
+        <svg xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              :class="{expand}">
           <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/>
           <path d="M0 0h24v24H0z" fill="none"/>
         </svg>
@@ -17,8 +21,11 @@
 </template>
 
 <script>
-import "./style/main.less"
 import animateScrollTo from 'animated-scroll-to'
+import ScrollBooster from 'scrollbooster'
+
+import "./style/main.less"
+
 export default {
   data() {
     return {
@@ -28,11 +35,19 @@ export default {
   props: {
     scroll: {
       type: [HTMLElement, Number]
+    },
+    dragable: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {
     scrollTo(val){
-      animateScrollTo(val, {elementToScroll: this.expand ? this.$refs.in : this.$refs.out}).then(() => {
+      animateScrollTo(val,
+        {
+          elementToScroll: this.expand ? this.$refs.in : this.$refs.out
+        })
+      .then(() => {
         if(!(val instanceof HTMLElement)) return
         let ori = val.style.boxShadow
         val.style.boxShadow = '0 0 0 2px #FFB11BAA'
@@ -42,7 +57,6 @@ export default {
       })
     },
     moreButtonClick(){
-      console.log('buttonClick')
       if(!this.expand) this.expandPanel()
       else this.collapsePanel()
     },
@@ -78,13 +92,33 @@ export default {
   },
   mounted() {
     this.$on('scroll-left', () => {
-      this.scrollTo([this.$refs.out.scrollLeft - this.$refs.out.clientWidth * 0.8, 0])
+      if(this.expand) return
+      let distance = this.$refs.out.scrollLeft - this.$refs.out.clientWidth * .8
+      this.scrollTo([distance, 0])
     })
     this.$on('scroll-right', () => {
-      this.scrollTo([this.$refs.out.scrollLeft + this.$refs.out.clientWidth * 0.8, 0])
+      if(this.expand) return
+      let distance = this.$refs.out.scrollLeft + this.$refs.out.clientWidth * .8
+      this.scrollTo([distance, 0])
     })
     this.$on('expand-panel', () => {
       this.expandPanel()
+    })
+
+    // drag to scroll
+    if(this.dragable)this.$nextTick(() => {
+      let viewport = this.$refs.out
+      let content = this.$refs.in
+      let sb = new ScrollBooster({
+        viewport,
+        content,
+        onUpdate: (data)=> {
+          if(!this.dragable) return;
+          // this.$emit('scroll', data)
+          if(!data.isScrolling) viewport.scrollLeft = data.position.x
+        }
+      })
+
     })
   },
   watch: {
