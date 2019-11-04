@@ -1,12 +1,12 @@
 {
   "name": "vue-scroll-panel",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "A vue scroll panel",
   "main": "index.js",
   "scripts": {
     "test": "karma start --single-run",
     "test:w": "karma start",
-    "build": "webpack",
+    "build": "webpack --config webpack.config.publish.js",
     "start": "webpack-dev-server"
   },
   "author": "guoxun",
